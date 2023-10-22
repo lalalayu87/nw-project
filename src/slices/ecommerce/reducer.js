@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProducts, addNewProduct, updateProduct, deleteProducts, getOrders, addNewOrder, updateOrder, deleteOrder, getCustomers, addNewCustomer, updateCustomer, deleteCustomer, getSellers } from './thunk';
+import { getProducts, addNewProduct, updateProduct, deleteProducts, getOrders, addNewOrder, updateOrder, deleteOrder, 
+  getCustomers, addNewCustomer, updateCustomer, deleteCustomer, getSellers } from './thunk';
 export const initialState = {
   products: [],
   orders: [],
@@ -7,6 +8,20 @@ export const initialState = {
   customers: [],
   error: {},
 };
+
+// extraReducers는 Redux Toolkit의 createSlice 함수 내에서 사용되는 기능 중 하나입니다. 
+// 이 기능을 통해 비동기 액션 처리 및 다른 슬라이스의 액션에 대한 응답을 처리할 수 있습니다. 
+// 일반적으로 이것은 Redux Thunk 또는 Redux Saga와 같은 미들웨어를 사용하여 비동기 작업을 수행할 때 유용하게 활용됩니다.
+
+// builder.addCase(actionType.fulfilled, (state, action) => { ... }): 
+// 비동기 액션이 성공했을 때의 처리를 정의합니다. 
+// actionType.fulfilled는 Redux Toolkit의 createAsyncThunk를 사용하여 생성된 비동기 액션의 성공 상태를 나타내며, 
+// 해당 액션이 발생했을 때 state 객체를 업데이트합니다.
+
+// builder.addCase(actionType.rejected, (state, action) => { ... }): 
+// 비동기 액션이 실패했을 때의 처리를 정의합니다. 
+// actionType.rejected는 Redux Toolkit의 createAsyncThunk를 사용하여 생성된 비동기 액션의 실패 상태를 나타내며, 
+// 해당 액션이 발생했을 때 state 객체를 업데이트합니다.
 
 const EcommerceSlice = createSlice({
   name: 'EcommerceSlice',

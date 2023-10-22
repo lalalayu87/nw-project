@@ -251,8 +251,9 @@ import Finaldocs from "../pages/Pages/ORG_ADMIN/Finaldocs/finaldocs";
 import Document from "../pages/Pages/ORG_ADMIN/Document/Document";
 import Community from "../pages/Pages/ORG_ADMIN/Community/Community";
 import Customer from "../pages/Pages/ORG_ADMIN/Customer/Customer";
-import Qsheettempl from "../pages/Pages/ORG_ADMIN/Qsheettempl/Qsheettempl";
-import Qsheet from "../pages/Pages/ORG_ADMIN/Qsheet/Qsheet";
+import CuesheetTemplate from "../pages/Pages/ORG_ADMIN/CuesheetTemplate/CuesheetTemplate";
+import Cuesheet from "../pages/Pages/ORG_ADMIN/Cuesheet/Cuesheet";
+import CreateCuesheet from "../pages/Pages/ORG_ADMIN/CuesheetTemplate/CreateCuesheet";
 
 const authProtectedRoutes = [
   // ROLE_ADMIN
@@ -264,8 +265,9 @@ const authProtectedRoutes = [
   { path: "/calendar", component: <Calendar /> }, // 일정 관리
   { path: "/finaltempl", component: <Finaltempl /> }, // 최종확인서 템플릿 관리
   { path: "/finaldocs", component: <Finaldocs /> }, // 최종확인서 관리
-  { path: "/qsheettempl", component: <Qsheettempl /> }, // 큐시트 템플릿 관리
-  { path: "/qsheet", component: <Qsheet /> }, // 큐시트 관리
+  { path: "/cuesheetTemplate", component: <CuesheetTemplate /> }, // 큐시트 템플릿 관리
+  { path: "/cuesheet", component: <Cuesheet /> }, // 큐시트 관리,
+  { path: "/cuesheet-create", component: <CreateCuesheet /> }, // 큐시트 생성
   { path: "/document", component: <Document /> }, // 문서 관리
   { path: "/community", component: <Community /> }, // 커뮤니티
   { path: "/customer", component: <Customer /> }, // 고객 관리

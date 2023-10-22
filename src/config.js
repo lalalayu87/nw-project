@@ -9,5 +9,6 @@ module.exports = {
   },
   api: {
     API_URL: "https://api-node.themesbrand.website",
-  }
+    // API_URL: "http://152.69.228.245:10001",
+  },
 };

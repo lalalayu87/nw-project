@@ -1,16 +1,17 @@
 import React from "react";
 import { Container } from "reactstrap";
+import CreateCuesheetContent from "./CreateCuesheetContent";
 
-const Qsheet = () => {
+const CreateCuesheet = () => {
   return (
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <div>큐시트 관리</div>
+          <CreateCuesheetContent />
         </Container>
       </div>
     </React.Fragment>
   );
 };
 
-export default Qsheet;
+export default CreateCuesheet;
