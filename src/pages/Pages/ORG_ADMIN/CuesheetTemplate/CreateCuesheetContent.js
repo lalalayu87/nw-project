@@ -47,25 +47,9 @@ const CreateCuesheetContent = () => {
   const initialData = [
     {
       orderIndex: 1,
-      process: "시작",
-      actor: "사회자",
-      content: "시작합니다",
-      filePath: "",
-      note: "",
-    },
-    {
-      orderIndex: 2,
-      process: "행진",
-      actor: "신랑, 신부",
-      content: "행진합니다",
-      filePath: "",
-      note: "",
-    },
-    {
-      orderIndex: 3,
-      process: "끝",
-      actor: "사회자, 신랑, 신부",
-      content: "끝입니다",
+      process: "",
+      actor: "",
+      content: "",
       filePath: "",
       note: "",
     },
@@ -73,21 +57,38 @@ const CreateCuesheetContent = () => {
 
   const [dataList, setDataList] = useState(initialData);
 
-  const handleInputChange = (e, index, field) => {
-    const { name, value } = e.target;
-    console.log("name", name);
-    console.log("name", value);
+  const [newData, setNewData] = useState({
+    ...initialData,
+    orderIndex: 2,
+  });
+
+  const [fileInputs, setFileInputs] = useState([]);
+
+  const handleInputChange = (field, value, index) => {
     const updatedDataList = [...dataList];
     updatedDataList[index][field] = value;
     setDataList(updatedDataList);
   };
 
-  // const handleInputChange = (value, index, field) => {
-  //   console.log("value", value);
-  //   const updatedDataList = [...dataList];
-  //   updatedDataList[index][field] = value;
-  //   setDataList(updatedDataList);
-  // };
+  const handleFileChange = (e, index) => {
+    const updatedDataList = [...dataList];
+    const files = e.target.files;
+
+    const updatedFileInputs = [...fileInputs];
+
+    for (let i = 0; i < e.target.files.length; i++) {
+      updatedFileInputs[index + i] = e.target.files[i];
+    }
+
+    setFileInputs(updatedFileInputs);
+    if (files.length > 0) {
+      updatedDataList[index] = {
+        ...updatedDataList[index],
+        filePath: files[0].name,
+      };
+      setDataList(updatedDataList);
+    }
+  };
 
   const onDragEnd = (result) => {
     console.log(result);
@@ -109,11 +110,50 @@ const CreateCuesheetContent = () => {
 
   const onAdd = () => {
     console.log("add");
-    // setNewData({
-    //     ...newData,
-    //     orderIndex: newData.orderIndex + 1,
-    // })
-    // setDataList([...dataList, newData])
+    setNewData({
+      ...newData,
+      orderIndex: newData.orderIndex + 1,
+    });
+    setDataList([...dataList, newData]);
+  };
+
+  // useEffect를 사용하여 dataList 상태가 업데이트될 때 리렌더링을 트리거
+  useEffect(() => {
+    // dataList이 변경될 때 실행되는 코드
+  }, [dataList]);
+
+  const ActionColumn = (row) => {
+    console.log("삭제");
+    // const { textTheme } = useThemeClass();
+
+    const onDelete = () => {
+      //삭제할 데이터 찾기
+      console.log(dataList);
+      // const rowData = dataList.find(
+      //   (item) => item.orderIndex === row.orderIndex
+      // );
+      // console.log(rowData);
+
+      // // 데이터를 삭제하고 업데이트된 배열을 생성합니다.
+      // const updatedData = dataList.filter(
+      //   (item) => item.orderIndex !== row.orderIndex
+      // );
+
+      // setDataList(updatedData);
+    };
+
+    return (
+      <div className="inset-0 flex items-center justify-center text-lg">
+        {/* <Tooltip title="삭제"> */}
+        <span
+          className="cursor-pointer p-2 hover:text-red-500"
+          onClick={() => onDelete(row.orderIndex)}
+        >
+          {/* <HiOutlineTrash /> */} 삭제
+        </span>
+        {/* </Tooltip> */}
+      </div>
+    );
   };
 
   return (
@@ -136,7 +176,7 @@ const CreateCuesheetContent = () => {
                   <button
                     type="button"
                     className="btn btn-info"
-                    // onClick={onAdd}
+                    onClick={onAdd}
                   >
                     <i className="ri-add-line align-bottom me-1"></i> 추가
                   </button>{" "}
@@ -216,11 +256,12 @@ const CreateCuesheetContent = () => {
                                       style={inputStyle}
                                       value={data.process}
                                       onChange={(e) =>
-                                        handleInputChange(e, index)
+                                        handleInputChange(
+                                          "process",
+                                          e.target.value,
+                                          index
+                                        )
                                       }
-                                      // onChange={(e) =>
-                                      //   handleInputChange("process", e, index)
-                                      // }
                                     />
                                   </td>
                                   {/* 행위자 */}
@@ -231,15 +272,12 @@ const CreateCuesheetContent = () => {
                                       style={inputStyle}
                                       value={data.actor}
                                       onChange={(e) =>
-                                        handleInputChange(e, index)
+                                        handleInputChange(
+                                          "actor",
+                                          e.target.value,
+                                          index
+                                        )
                                       }
-                                      // onChange={(e) =>
-                                      //   handleInputChange(
-                                      //     "actor",
-                                      //     e.target.value,
-                                      //     index
-                                      //   )
-                                      // }
                                     />
                                   </td>
                                   {/* 내용 */}
@@ -250,20 +288,60 @@ const CreateCuesheetContent = () => {
                                       style={contentInputStyle}
                                       value={data.content}
                                       onChange={(e) =>
-                                        handleInputChange(e, index)
+                                        handleInputChange(
+                                          "content",
+                                          e.target.value,
+                                          index
+                                        )
                                       }
-                                      // onChange={(e) =>
-                                      //   handleInputChange(
-                                      //     "content",
-                                      //     e.target.value,
-                                      //     index
-                                      //   )
-                                      // }
                                     />
                                   </td>
                                   {/* 파일 */}
                                   <td className="border border-gray-200 w-2/12 py-2">
-                                    파일
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      <input
+                                        multiple
+                                        className="focus:border border-gray-300"
+                                        type="file"
+                                        style={{
+                                          display: "none",
+                                        }}
+                                        id={`fileInput-${index}`}
+                                        accept="*/*"
+                                        onChange={(e) =>
+                                          handleFileChange(e, index)
+                                        }
+                                      />
+                                      <label
+                                        htmlFor={`fileInput-${index}`}
+                                        className="cursor-pointer flex items-center"
+                                      >
+                                        &nbsp; &nbsp;
+                                        {/* <HiOutlineUpload className="text-2xl mr-1" /> */}
+                                        <span
+                                          id="fileNameDisplay"
+                                          style={{
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            maxWidth: "200px",
+                                          }}
+                                        >
+                                          {data.filePath
+                                            ? data.filePath.split("/")[
+                                                data.filePath.split("/")
+                                                  .length - 1
+                                              ]
+                                            : "파일"}
+                                        </span>
+                                      </label>
+                                    </div>
                                   </td>
                                   {/* 비고 */}
                                   <td className="border border-gray-200 w-2/12 py-2">
@@ -273,15 +351,12 @@ const CreateCuesheetContent = () => {
                                       style={inputStyle}
                                       value={data.note}
                                       onChange={(e) =>
-                                        handleInputChange(e, index)
+                                        handleInputChange(
+                                          "note",
+                                          e.target.value,
+                                          index
+                                        )
                                       }
-                                      // onChange={(e) =>
-                                      //   handleInputChange(
-                                      //     "note",
-                                      //     e.target.value,
-                                      //     index
-                                      //   )
-                                      // }
                                     />
                                   </td>
                                   <td
@@ -291,7 +366,7 @@ const CreateCuesheetContent = () => {
                                     }}
                                   >
                                     <div>
-                                      {/* <ActionColumn row={data} /> */}
+                                      <ActionColumn row={data} />
                                     </div>
                                   </td>
                                 </tr>
